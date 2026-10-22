@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="text-center py-4">
+  <h1 class="display-6 fw-bold">My Projects</h1>
+  <p class="text-muted">Every build, tested and on GitHub &mdash; click a card for the full story.</p>
+
+  {# ---- filter chips ---- #}
+  <div class="mb-3">
+    <a class="btn btn-sm {% if not active_tech %}btn-dark{% else %}btn-outline-dark{% endif %} m-1"
+       href="{% url 'project_list' %}">All</a>
+    {% for t in all_tech %}
+      <a class="btn btn-sm {% if t == active_tech %}btn-dark{% else %}btn-outline-dark{% endif %} m-1"
+         href="{% url 'project_list' %}?tech={{ t|urlencode }}">{{ t }}</a>
+    {% endfor %}
+  </div>
+
+  <form class="d-inline-flex" method="get" action="">
+    <input class="form-control form-control-sm me-2" name="q" value="{{ q }}" placeholder="Search projects..." aria-label="Search">
+    <button class="btn btn-sm btn-outline-dark" type="submit">Search</button>
+  </form>
+</section>
+
+<div class="row g-4">
+  {% for project in projects %}
+  <div class="col-md-6 col-lg-4">
+    <a href="{% url 'project_detail' project.slug %}" class="text-decoration-none">
+      <div class="card h-100 project-card shadow-sm">
+        {% if project.image %}
+          <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+        {% else %}
+          <div class="card-img-top placeholder-img d-flex align-items-center justify-content-center">
+            <span class="display-5 text-white-50">{{ project.title|first }}</span>
+          </div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title text-dark">{{ project.title }}</h5>
+          <p class="card-text text-muted small">{{ project.summary }}</p>
+        </div>
+        <div class="card-footer bg-white border-0 pb-3">
+          {% for tech in project.tech_list|slice:':4' %}
+            <span class="badge text-bg-light border me-1">{{ tech }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </a>
+  </div>
+  {% empty %}
+    <p class="text-center text-muted">No projects yet &mdash; add some in <a href="/admin/">admin</a>.</p>
+  {% endfor %}
+</div>
+{% endblock %}

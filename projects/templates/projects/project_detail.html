@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }} - Portfolio{% endblock %}
+{% block body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'project_list' %}">Projects</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col-lg-7 mb-4">
+    {% if project.image %}
+      <img src="{{ project.image.url }}" class="img-fluid rounded border" alt="{{ project.title }}">
+    {% else %}
+      <div class="placeholder-img rounded d-flex align-items-center justify-content-center" style="min-height:260px">
+        <span class="display-1 text-white-50">{{ project.title|first }}</span>
+      </div>
+    {% endif %}
+  </div>
+  <div class="col-lg-5">
+    <h1 class="h2">{{ project.title }}</h1>
+    <p class="text-muted">{{ project.summary }}</p>
+
+    <p>{% for tech in project.tech_list %}
+      <span class="badge text-bg-dark">{{ tech }}</span>{% endfor %}
+    </p>
+
+    <div class="d-flex gap-2 mb-4">
+      {% if project.project_url %}
+        <a class="btn btn-primary" href="{{ project.project_url }}" target="_blank" rel="noopener">
+          <i class="bi bi-box-arrow-up-right"></i> Live demo</a>
+      {% endif %}
+      {% if project.github_url %}
+        <a class="btn btn-dark" href="{{ project.github_url }}" target="_blank" rel="noopener">
+          <i class="bi bi-github"></i> Source code</a>
+      {% endif %}
+    </div>
+
+    <h5>What it is</h5>
+    <p style="white-space: pre-line">{{ project.description }}</p>
+    {% if project.completed %}
+      <p class="text-muted small">Completed: {{ project.completed|date:"F j, Y" }}</p>
+    {% endif %}
+  </div>
+</div>
+
+{% if others %}
+<hr class="my-5">
+<h4>Other projects</h4>
+<div class="row g-3">
+  {% for p in others %}
+  <div class="col-md-4">
+    <a href="{% url 'project_detail' p.slug %}" class="text-decoration-none">
+      <div class="card h-100 project-card">
+        <div class="card-body">
+          <h6 class="text-dark">{{ p.title }}</h6>
+          <p class="small text-muted mb-0">{{ p.summary|truncatewords:14 }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

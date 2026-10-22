@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About - Blessed{% endblock %}
+{% block body %}
+<div class="row align-items-center py-4">
+  <div class="col-md-4 text-center mb-3">
+    <img src="{% static 'img/me.jpg' %}" class="rounded-circle shadow" width="200" height="200"
+         style="object-fit:cover" alt="Portrait">
+  </div>
+  <div class="col-md-8">
+    <h1>Hi, I'm Blessed &#128075;</h1>
+    <p class="lead">Django backend developer building full-stack products: REST APIs,
+    e-commerce, LMS platforms &mdash; tested, documented, deployed.</p>
+    <p><strong>Stack:</strong> Python &middot; Django &middot; DRF &middot; SimpleJWT &middot;
+    React &middot; Bootstrap &middot; SQLite/PostgreSQL &middot; Git</p>
+    <a class="btn btn-dark" href="https://github.com/techblessed-code" target="_blank" rel="noopener">See my GitHub</a>
+    <a class="btn btn-outline-dark" href="{% url 'contact' %}">Contact me</a>
+  </div>
+</div>
+
+<hr>
+
+<div class="row text-center g-4">
+  <div class="col-md-4">
+    <div class="display-6">4+</div>
+    <p class="text-muted">Projects shipped (all on GitHub, all tested)</p>
+  </div>
+  <div class="col-md-4">
+    <div class="display-6">50+</div>
+    <p class="text-muted">Automated tests across the projects</p>
+  </div>
+  <div class="col-md-4">
+    <div class="display-6">100%</div>
+    <p class="text-muted">Server-rendered or API-driven &mdash; no black boxes</p>
+  </div>
+</div>
+{% endblock %}
